@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 
 
-namespace PandaConsole
+namespace PandaConsole.Sakai
 {
     public sealed class SakaiUser
     {

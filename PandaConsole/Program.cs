@@ -3,6 +3,7 @@ using System.Linq;
 using System.IO;
 
 using PandaConsole.Shell;
+using PandaConsole.Sakai;
 
 namespace PandaConsole
 {

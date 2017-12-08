@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-
-
-namespace PandaConsole
+namespace PandaConsole.Sakai
 {
     [DataContract]
     public class SakaiResource

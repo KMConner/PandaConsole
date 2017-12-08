@@ -1,7 +1,7 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
-using System;
-namespace PandaConsole
+namespace PandaConsole.Sakai
 {
     [DataContract]
     public class SakaiSite

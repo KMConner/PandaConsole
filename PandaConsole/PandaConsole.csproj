@@ -40,16 +40,17 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shell\ShellMethods.cs" />
-    <Compile Include="SakaiUser.cs" />
-    <Compile Include="SakaiSiteCollection.cs" />
-    <Compile Include="SakaiSite.cs" />
     <Compile Include="Shell\ShellSelection.cs" />
-    <Compile Include="SakaiResourceCollection.cs" />
-    <Compile Include="SakaiResource.cs" />
     <Compile Include="Utilities.cs" />
+    <Compile Include="Sakai\SakaiResource.cs" />
+    <Compile Include="Sakai\SakaiResourceCollection.cs" />
+    <Compile Include="Sakai\SakaiSite.cs" />
+    <Compile Include="Sakai\SakaiSiteCollection.cs" />
+    <Compile Include="Sakai\SakaiUser.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Shell\" />
+    <Folder Include="Sakai\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

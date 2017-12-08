@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 using System.Collections.Generic;
 
 
-namespace PandaConsole
+namespace PandaConsole.Sakai
 {
     [DataContract]
     public class SakaiResourceCollection

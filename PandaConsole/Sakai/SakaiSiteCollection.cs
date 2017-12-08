@@ -7,7 +7,7 @@ using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Collections;
 
-namespace PandaConsole
+namespace PandaConsole.Sakai
 {
     [DataContract]
     public class SakaiSiteCollection
