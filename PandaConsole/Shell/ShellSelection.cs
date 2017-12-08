@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Text;
-using System.Globalization;
 
 namespace PandaConsole.Shell
 {
+    /// <summary>
+    /// This class provides item selection feature in the console.
+    /// </summary>
     public class ShellSelection
     {
         /// <summary>
@@ -16,12 +18,24 @@ namespace PandaConsole.Shell
         /// </summary>
         (int fromIndex, int toIndex) viewRange;
 
+        /// <summary>
+        /// The previous forecolor of the console.
+        /// </summary>
         static ConsoleColor previousForecolor = Console.ForegroundColor;
 
+        /// <summary>
+        /// The color of the previous background of the console.
+        /// </summary>
         static ConsoleColor previousBackgroundColor = Console.BackgroundColor;
 
+        /// <summary>
+        /// The index of the selected item.
+        /// </summary>
         int selectedIndex;
 
+        /// <summary>
+        /// The indices to when displaying items.
+        /// </summary>
         public static readonly char[] indices =
         {
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
@@ -37,6 +51,13 @@ namespace PandaConsole.Shell
         /// Initializes a new instance of the <see cref="T:ShellSelection.ShellSelection"/> class.
         /// </summary>
         /// <param name="items">Items.</param>
+        /// <remarks>
+        /// <paramref name="items"/> has some restrictions.
+        /// <list type="bullet">
+        /// <item>The length must be 62 or less.</item>
+        /// <item>New line characters will be removed.</item>
+        /// </list>
+        /// </remarks>
         public ShellSelection(string[] items)
         {
             for (int i = 0; i < items.Length; i++)
@@ -161,21 +182,41 @@ namespace PandaConsole.Shell
             return builder.ToString();
         }
 
+        /// <summary>
+        /// Gets the width of the specified character.
+        /// </summary>
+        /// <remarks>
+        /// Returns 1 when the specified character is ascii characters or half-width kana.
+        /// Returns 2 otherwise.
+        /// </remarks>
+        /// <returns>The character width.</returns>
+        /// <param name="c">The specified character.</param>
         int GetCharWidth(char c)
         {
             #region Inner methods
 
+            /// <summary>
+            /// Indicates whether the specified character is ASCII.
+            /// </summary>
+            /// <returns><c>true</c>, if this char is ASCII, <c>false</c> otherwise.</returns>
+            /// <param name="ch"The <see cref="char"/> to test.</param>
             bool IsAscii(char ch)
             {
                 return ch < 0xF0;
             }
 
+            /// <summary>
+            /// Indicates whether the specified character is halfwidth kana.
+            /// </summary>
+            /// <returns><c>true</c>, if the cpesified character is  halfwidth kana, <c>false</c> otherwise.</returns>
+            /// <param name="ch"The <see cref="char"/> to test.</param>
             bool IsHalfwidthKana(char ch)
             {
                 return ch >= 0xFF66 && ch <= 0xFFDC;
             }
 
             #endregion
+
             if (IsAscii(c)
                 || IsHalfwidthKana(c))
             {
@@ -184,7 +225,5 @@ namespace PandaConsole.Shell
 
             return 2;
         }
-
-
     }
 }

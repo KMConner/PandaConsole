@@ -7,22 +7,57 @@ using System.IO;
 
 namespace PandaConsole.Sakai
 {
+    /// <summary>
+    /// This class represents the Sakai user.
+    /// </summary>
     public sealed class SakaiUser
     {
+        #region Fields
+
+        /// <summary>
+        /// The user identifier.
+        /// </summary>
         string userId;
 
+        /// <summary>
+        /// The user password.
+        /// </summary>
         string password;
 
+        /// <summary>
+        /// The cookie used for authencation.
+        /// </summary>
         CookieContainer cookie;
 
+        /// <summary>
+        /// The URL to the login form of Panda.
+        /// </summary>
         const string LOGIN_FORM_URL = "https://panda.ecs.kyoto-u.ac.jp/portal/login";
 
+        /// <summary>
+        /// The URL to the portal of Panda.
+        /// </summary>
         const string PORTAL_URL = "https://panda.ecs.kyoto-u.ac.jp/portal";
 
-        const string SITE_COLLECTION_XML_URL = "https://panda.ecs.kyoto-u.ac.jp/direct/site.xml";
+        /// <summary>
+        /// The URL to retrive the json of site collection.
+        /// </summary>
+        const string SITE_COLLECTION_JSON_URL = "https://panda.ecs.kyoto-u.ac.jp/direct/site.xml";
 
+        /// <summary>
+        /// The regex object used to post the sign-in information.
+        /// </summary>
         static readonly Regex loginFormRegex = new Regex(@"\<input type=""hidden"" name=""lt"" value=""(.*?)"".*?\>");
 
+        #endregion
+
+        #region Constructor
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:PandaConsole.Sakai.SakaiUser"/> class.
+        /// </summary>
+        /// <param name="id">User id.</param>
+        /// <param name="pass">Password.</param>
         public SakaiUser(string id, string pass)
         {
             userId = id;
@@ -30,6 +65,13 @@ namespace PandaConsole.Sakai
             cookie = new CookieContainer();
         }
 
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Log in panda and get cookie.
+        /// </summary>
         public void LogIn()
         {
             var request = CreateRequest(LOGIN_FORM_URL);
@@ -65,20 +107,37 @@ namespace PandaConsole.Sakai
             }
         }
 
+        /// <summary>
+        /// Gets user's site collection.
+        /// </summary>
+        /// <returns>The sites of the authrized user.</returns>
         public SakaiSiteCollection GetSites()
         {
-            string siteJson = GetHttpText("https://panda.ecs.kyoto-u.ac.jp/direct/site.json");
+            string siteJson = GetHttpText(SITE_COLLECTION_JSON_URL);
             return SakaiSiteCollection.Create(siteJson);
         }
 
-
+        /// <summary>
+        /// Gets the resources of the specified site.
+        /// </summary>
+        /// <returns>The resources of the specified site.</returns>
+        /// <param name="site">The site.</param>
         public SakaiResourceCollection GetResources(SakaiSite site)
         {
             string resourceJson = GetHttpText($"https://panda.ecs.kyoto-u.ac.jp/direct/content/site/{site.Id}.json");
             return SakaiResourceCollection.CreateFromJson(resourceJson);
         }
 
-        public void DownloadResource(SakaiResource resource, string savepath)
+		#endregion
+		
+        #region Private Methods
+
+        /// <summary>
+        /// Downloads the specified resource and saves to the specified path.
+        /// </summary>
+        /// <param name="resource">Resource to download.</param>
+        /// <param name="savepath">Where to save the file.</param>
+        void DownloadResource(SakaiResource resource, string savepath)
         {
             HttpWebRequest request = CreateRequest(resource.Url);
             var response = request.GetResponse();
@@ -89,6 +148,11 @@ namespace PandaConsole.Sakai
             }
         }
 
+        /// <summary>
+        /// Creates the <see cref="HttpWebRequest"/> object to specified url with cookies.
+        /// </summary>
+        /// <returns>The request object.</returns>
+        /// <param name="url">The URL to send the request.</param>
         HttpWebRequest CreateRequest(string url)
         {
             var req = (HttpWebRequest)WebRequest.Create(url);
@@ -96,6 +160,11 @@ namespace PandaConsole.Sakai
             return req;
         }
 
+        /// <summary>
+        /// Retrives the string from the specified stream.
+        /// </summary>
+        /// <returns>The string rad from the stream.</returns>
+        /// <param name="stream">The stream to read.</param>
         string ReadStream(Stream stream)
         {
             string result;
@@ -108,6 +177,11 @@ namespace PandaConsole.Sakai
             return result;
         }
 
+        /// <summary>
+        /// Retrives data from the specified stream and saves to the specified path.
+        /// </summary>
+        /// <param name="stream">Stream to read.</param>
+        /// <param name="savePath">Save path.</param>
         public void SaveStream(Stream stream, string savePath)
         {
             if (!Directory.Exists(Path.GetDirectoryName(savePath)))
@@ -128,6 +202,11 @@ namespace PandaConsole.Sakai
             }
         }
 
+        /// <summary>
+        /// Send a http request and returns data as text.
+        /// </summary>
+        /// <returns>The http text.</returns>
+        /// <param name="url">The URL to send a request.</param>
         string GetHttpText(string url)
         {
             HttpWebRequest request = CreateRequest(url);
@@ -135,5 +214,7 @@ namespace PandaConsole.Sakai
             var responseStream = response.GetResponseStream();
             return ReadStream(responseStream);
         }
+
+        #endregion
     }
 }
