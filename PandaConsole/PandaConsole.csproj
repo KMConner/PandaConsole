@@ -42,7 +42,7 @@
     <Compile Include="Shell\ShellMethods.cs" />
     <Compile Include="SakaiUser.cs" />
     <Compile Include="SakaiSiteCollection.cs" />
-    <Compile Include="PandaSite.cs" />
+    <Compile Include="SakaiSite.cs" />
     <Compile Include="Shell\ShellSelection.cs" />
     <Compile Include="SakaiResourceCollection.cs" />
     <Compile Include="SakaiResource.cs" />

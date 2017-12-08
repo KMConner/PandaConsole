@@ -72,7 +72,7 @@ namespace PandaConsole
         }
 
 
-        public SakaiResourceCollection GetResources(PandaSite site)
+        public SakaiResourceCollection GetResources(SakaiSite site)
         {
             string resourceJson = GetHttpText($"https://panda.ecs.kyoto-u.ac.jp/direct/content/site/{site.Id}.json");
             return SakaiResourceCollection.CreateFromJson(resourceJson);

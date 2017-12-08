@@ -4,7 +4,7 @@ using System;
 namespace PandaConsole
 {
     [DataContract]
-    public class PandaSite
+    public class SakaiSite
     {
         [DataMember(Name = "title")]
 		public string Title { set; get; }
@@ -14,10 +14,5 @@ namespace PandaConsole
 
         [DataMember(Name = "id")]
         public string Id { get; set; }
-
-        public PandaSite()
-        {
-        }
-
     }
 }

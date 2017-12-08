@@ -13,10 +13,10 @@ namespace PandaConsole
     public class SakaiSiteCollection
     {
         [DataMember(Name = "site_collection")]
-        public List<PandaSite> Items;
+        public List<SakaiSite> Items;
         public SakaiSiteCollection()
         {
-            Items = new List<PandaSite>();
+            Items = new List<SakaiSite>();
         }
 
         public static SakaiSiteCollection Create(string jsonString)
