@@ -78,6 +78,17 @@ namespace PandaConsole
             return SakaiResourceCollection.CreateFromJson(resourceJson);
         }
 
+        public void DownloadResource(SakaiResource resource, string savepath)
+        {
+            HttpWebRequest request = CreateRequest(resource.Url);
+            var response = request.GetResponse();
+            using (var stream = response.GetResponseStream())
+            {
+                SaveStream(stream, savepath);
+                stream.Close();
+            }
+        }
+
         HttpWebRequest CreateRequest(string url)
         {
             var req = (HttpWebRequest)WebRequest.Create(url);
@@ -95,6 +106,26 @@ namespace PandaConsole
                 stream.Close();
             }
             return result;
+        }
+
+        public void SaveStream(Stream stream, string savePath)
+        {
+            if (!Directory.Exists(Path.GetDirectoryName(savePath)))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(savePath));
+            }
+            var buffer = new byte[1024];
+            using (var writer = new FileStream(savePath, FileMode.Create, FileAccess.Write))
+            {
+                int length;
+                do
+                {
+                    length = stream.Read(buffer, 0, buffer.Length);
+                    writer.Write(buffer, 0, length);
+                } while (length != 0);
+                writer.Close();
+                writer.Dispose();
+            }
         }
 
         string GetHttpText(string url)

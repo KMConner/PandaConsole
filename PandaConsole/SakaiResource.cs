@@ -15,7 +15,7 @@ namespace PandaConsole
         public string ModifiedDate { get; set; }
 
         [DataMember(Name = "url")]
-        public Uri Url { get; set; }
+        public string Url { get; set; }
 
         [DataMember(Name = "size")]
         public int Size { get; set; }

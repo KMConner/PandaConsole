@@ -16,9 +16,9 @@ namespace PandaConsole.Shell
         /// </summary>
         (int fromIndex, int toIndex) viewRange;
 
-        ConsoleColor previousForecolor;
+        static ConsoleColor previousForecolor = Console.ForegroundColor;
 
-        ConsoleColor previousBackgroundColor;
+        static ConsoleColor previousBackgroundColor = Console.BackgroundColor;
 
         int selectedIndex;
 
@@ -45,8 +45,6 @@ namespace PandaConsole.Shell
             }
             this.items = items;
             viewRange = (0, Math.Min(Console.BufferHeight, items.Length - 1));
-            previousForecolor = Console.ForegroundColor;
-            previousBackgroundColor = Console.BackgroundColor;
         }
 
         /// <summary>
