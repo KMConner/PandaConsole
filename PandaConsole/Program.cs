@@ -24,7 +24,10 @@ namespace PandaConsole
             Console.WriteLine(collection.Items[index].Title + " was selected.");
 
             // Get Resource List
-
+            SakaiResourceCollection resources = user.GetResources(collection.Items[index]);
+            ShellSelection selection2 = new ShellSelection(resources.Items.Select(i => i.Title).ToArray());
+            int resourceIndex = selection2.DoSelection();
+            Console.WriteLine(resources.Items[resourceIndex].Title+" was selected.");
         }
     }
 }
