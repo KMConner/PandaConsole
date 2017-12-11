@@ -128,16 +128,12 @@ namespace PandaConsole.Sakai
             return SakaiResourceCollection.CreateFromJson(resourceJson);
         }
 
-		#endregion
-		
-        #region Private Methods
-
         /// <summary>
         /// Downloads the specified resource and saves to the specified path.
         /// </summary>
         /// <param name="resource">Resource to download.</param>
         /// <param name="savepath">Where to save the file.</param>
-        void DownloadResource(SakaiResource resource, string savepath)
+        public void DownloadResource(SakaiResource resource, string savepath)
         {
             HttpWebRequest request = CreateRequest(resource.Url);
             var response = request.GetResponse();
@@ -147,6 +143,10 @@ namespace PandaConsole.Sakai
                 stream.Close();
             }
         }
+		
+        #endregion
+		
+        #region Private Methods
 
         /// <summary>
         /// Creates the <see cref="HttpWebRequest"/> object to specified url with cookies.
@@ -182,7 +182,7 @@ namespace PandaConsole.Sakai
         /// </summary>
         /// <param name="stream">Stream to read.</param>
         /// <param name="savePath">Save path.</param>
-        public void SaveStream(Stream stream, string savePath)
+        void SaveStream(Stream stream, string savePath)
         {
             if (!Directory.Exists(Path.GetDirectoryName(savePath)))
             {
