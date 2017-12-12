@@ -42,7 +42,7 @@ namespace PandaConsole.Sakai
         /// <summary>
         /// The URL to retrive the json of site collection.
         /// </summary>
-        const string SITE_COLLECTION_JSON_URL = "https://panda.ecs.kyoto-u.ac.jp/direct/site.xml";
+        const string SITE_COLLECTION_JSON_URL = "https://panda.ecs.kyoto-u.ac.jp/direct/site.json";
 
         /// <summary>
         /// The regex object used to post the sign-in information.
