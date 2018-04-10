@@ -11,7 +11,7 @@ namespace PandaConsole.Shell
         /// <summary>
         /// The items to select.
         /// </summary>
-        string[] items;
+        private readonly string[] items;
 
         /// <summary>
         /// The range shown in the cosole.
@@ -21,12 +21,12 @@ namespace PandaConsole.Shell
         /// <summary>
         /// The previous forecolor of the console.
         /// </summary>
-        static ConsoleColor previousForecolor = Console.ForegroundColor;
+        static readonly ConsoleColor previousForecolor = Console.ForegroundColor;
 
         /// <summary>
         /// The color of the previous background of the console.
         /// </summary>
-        static ConsoleColor previousBackgroundColor = Console.BackgroundColor;
+        static readonly ConsoleColor previousBackgroundColor = Console.BackgroundColor;
 
         /// <summary>
         /// The index of the selected item.
@@ -36,7 +36,7 @@ namespace PandaConsole.Shell
         /// <summary>
         /// The indices to when displaying items.
         /// </summary>
-        public static readonly char[] indices =
+        public static readonly char[] Indices =
         {
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
             'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
@@ -91,7 +91,7 @@ namespace PandaConsole.Shell
                 {
                     selectedIndex = Math.Min(items.Length - 1, selectedIndex + 1);
                 }
-                else if ((tempIndex = Array.IndexOf(indices, key.KeyChar)) >= 0 && tempIndex < items.Length)
+                else if ((tempIndex = Array.IndexOf(Indices, key.KeyChar)) >= 0 && tempIndex < items.Length)
                 {
                     selectedIndex = tempIndex;
                     break;
@@ -126,12 +126,12 @@ namespace PandaConsole.Shell
                 {
                     Console.ForegroundColor = previousBackgroundColor;
                     Console.BackgroundColor = previousForecolor;
-                    Console.Write($"[{indices[i]}] {showStr}");
+                    Console.Write($"[{Indices[i]}] {showStr}");
                     Console.ResetColor();
                 }
                 else
                 {
-                    Console.Write($"[{indices[i]}] {showStr}");
+                    Console.Write($"[{Indices[i]}] {showStr}");
                 }
                 Console.Write(new string(' ', Console.BufferWidth - Console.CursorLeft - GetCharWidth(showStr[showStr.Length - 1])));
             }
@@ -195,21 +195,11 @@ namespace PandaConsole.Shell
         {
             #region Inner methods
 
-            /// <summary>
-            /// Indicates whether the specified character is ASCII.
-            /// </summary>
-            /// <returns><c>true</c>, if this char is ASCII, <c>false</c> otherwise.</returns>
-            /// <param name="ch"The <see cref="char"/> to test.</param>
             bool IsAscii(char ch)
             {
                 return ch < 0xF0;
             }
 
-            /// <summary>
-            /// Indicates whether the specified character is halfwidth kana.
-            /// </summary>
-            /// <returns><c>true</c>, if the cpesified character is  halfwidth kana, <c>false</c> otherwise.</returns>
-            /// <param name="ch"The <see cref="char"/> to test.</param>
             bool IsHalfwidthKana(char ch)
             {
                 return ch >= 0xFF66 && ch <= 0xFFDC;

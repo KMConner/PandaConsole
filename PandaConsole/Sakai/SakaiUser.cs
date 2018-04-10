@@ -32,22 +32,22 @@ namespace PandaConsole.Sakai
         /// <summary>
         /// The URL to the login form of Panda.
         /// </summary>
-        const string LOGIN_FORM_URL = "https://panda.ecs.kyoto-u.ac.jp/portal/login";
+        const string LoginFormUrl = "https://panda.ecs.kyoto-u.ac.jp/portal/login";
 
         /// <summary>
         /// The URL to the portal of Panda.
         /// </summary>
-        const string PORTAL_URL = "https://panda.ecs.kyoto-u.ac.jp/portal";
+        const string PortalUrl = "https://panda.ecs.kyoto-u.ac.jp/portal";
 
         /// <summary>
         /// The URL to retrive the json of site collection.
         /// </summary>
-        const string SITE_COLLECTION_JSON_URL = "https://panda.ecs.kyoto-u.ac.jp/direct/site.json";
+        const string SiteCollectionJsonUrl = "https://panda.ecs.kyoto-u.ac.jp/direct/site.json";
 
         /// <summary>
         /// The regex object used to post the sign-in information.
         /// </summary>
-        static readonly Regex loginFormRegex = new Regex(@"\<input type=""hidden"" name=""lt"" value=""(.*?)"".*?\>");
+        static readonly Regex LoginFormRegex = new Regex(@"\<input type=""hidden"" name=""lt"" value=""(.*?)"".*?\>");
 
         #endregion
 
@@ -74,16 +74,14 @@ namespace PandaConsole.Sakai
         /// </summary>
         public void LogIn()
         {
-            var request = CreateRequest(LOGIN_FORM_URL);
+            var request = CreateRequest(LoginFormUrl);
             var response = request.GetResponse();
             var respHtml = ReadStream(response.GetResponseStream());
             response.Close();
             request.Abort();
             Uri redirectedFormUrl = response.ResponseUri;
 
-            var mm = loginFormRegex.Match(respHtml);
-
-            string lt = loginFormRegex.Match(respHtml).Groups[1].Value;
+            string lt = LoginFormRegex.Match(respHtml).Groups[1].Value;
             var postRequest = CreateRequest(redirectedFormUrl.ToString());
             postRequest.Method = "POST";
             postRequest.ContentType = "application/x-www-form-urlencoded";
@@ -101,7 +99,7 @@ namespace PandaConsole.Sakai
 
             postRequest.Abort();
 
-            if (postRedirectedUrl != PORTAL_URL)
+            if (postRedirectedUrl != PortalUrl)
             {
                 throw new Exception("Wrong username or password!");
             }
@@ -113,7 +111,7 @@ namespace PandaConsole.Sakai
         /// <returns>The sites of the authrized user.</returns>
         public SakaiSiteCollection GetSites()
         {
-            string siteJson = GetHttpText(SITE_COLLECTION_JSON_URL);
+            string siteJson = GetHttpText(SiteCollectionJsonUrl);
             return SakaiSiteCollection.Create(siteJson);
         }
 
@@ -140,7 +138,7 @@ namespace PandaConsole.Sakai
             using (var stream = response.GetResponseStream())
             {
                 SaveStream(stream, savepath);
-                stream.Close();
+                stream?.Close();
             }
         }
 		
@@ -186,7 +184,7 @@ namespace PandaConsole.Sakai
         {
             if (!Directory.Exists(Path.GetDirectoryName(savePath)))
             {
-                Directory.CreateDirectory(Path.GetDirectoryName(savePath));
+                Directory.CreateDirectory(Path.GetDirectoryName(savePath) ?? throw new InvalidOperationException());
             }
             var buffer = new byte[1024];
             using (var writer = new FileStream(savePath, FileMode.Create, FileAccess.Write))
