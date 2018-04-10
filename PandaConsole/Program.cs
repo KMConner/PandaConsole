@@ -25,19 +25,20 @@ namespace PandaConsole
 
             // Get Resource List
             SakaiResourceCollection resources = user.GetResources(collection.Items[index]);
-            ShellSelection selection2 = new ShellSelection(resources.Items.Select(i => i.Title).ToArray());
-            int resourceIndex = selection2.DoSelection();
-            Console.WriteLine(resources.Items[resourceIndex].Title + " was selected.");
 
-            var selectedResource = resources.Items[resourceIndex];
-
-            // Decide path to save resource
-            string savePath = $"./temp/{collection.Items[index].Id}/{Path.GetFileNameWithoutExtension(selectedResource.Title)}-{selectedResource.ModifiedDate}{Path.GetExtension(selectedResource.Url)}";
-
-            // Download resource
-            user.DownloadResource(selectedResource, savePath);
-            Console.WriteLine($"The resource {selectedResource.Title} was saved to {savePath}.");
-            Utilities.OpenFileDefaultWithApp(savePath);
+            foreach (var item in resources.Items)
+            {
+                string savePath = $"./temp/{collection.Items[index].Id}/{Path.GetFileNameWithoutExtension(item.Title)}{Path.GetExtension(item.Url)}";
+                try
+                {
+                    user.DownloadResource(item, savePath);
+                    Console.WriteLine($"The resource {item.Title} was saved to {savePath}.");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+            }
         }
     }
 }
