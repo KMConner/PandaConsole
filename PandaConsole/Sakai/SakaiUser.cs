@@ -77,9 +77,9 @@ namespace PandaConsole.Sakai
             var request = CreateRequest(LoginFormUrl);
             var response = request.GetResponse();
             var respHtml = ReadStream(response.GetResponseStream());
+            Uri redirectedFormUrl = response.ResponseUri;
             response.Close();
             request.Abort();
-            Uri redirectedFormUrl = response.ResponseUri;
 
             string lt = LoginFormRegex.Match(respHtml).Groups[1].Value;
             var postRequest = CreateRequest(redirectedFormUrl.ToString());
