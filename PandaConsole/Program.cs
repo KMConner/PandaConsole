@@ -28,7 +28,19 @@ namespace PandaConsole
 
             foreach (var item in resources.Items)
             {
-                string savePath = $"./temp/{collection.Items[index].Id}/{Path.GetFileNameWithoutExtension(item.Title)}{Path.GetExtension(item.Url)}";
+                string dirName = string.Empty;
+                if (item.Container?.Contains(collection.Items[index].Id) == true)
+                {
+                    var temp = item.Container.Substring(item.Container.IndexOf(collection.Items[index].Id) + collection.Items[index].Id.Length + 1);
+                    dirName = temp.Substring(0, temp.IndexOf("/") + 1);
+                }
+
+                if (!Directory.Exists($"./temp{collection.Items[index].Id}/{dirName}"))
+                {
+                    Directory.CreateDirectory("./temp{collection.Items[index].Id}/{dirName}");
+                }
+
+                string savePath = $"./temp/{collection.Items[index].Id}/{dirName}{Path.GetFileNameWithoutExtension(item.Title)}{Path.GetExtension(item.Url)}";
                 try
                 {
                     user.DownloadResource(item, savePath);
