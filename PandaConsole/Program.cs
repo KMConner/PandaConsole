@@ -35,11 +35,6 @@ namespace PandaConsole
                     dirName = temp.Substring(0, temp.IndexOf("/") + 1);
                 }
 
-                if (!Directory.Exists($"./temp{collection.Items[index].Id}/{dirName}"))
-                {
-                    Directory.CreateDirectory("./temp{collection.Items[index].Id}/{dirName}");
-                }
-
                 string savePath = $"./temp/{collection.Items[index].Id}/{dirName}{Path.GetFileNameWithoutExtension(item.Title)}{Path.GetExtension(item.Url)}";
                 try
                 {
