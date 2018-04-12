@@ -31,5 +31,11 @@ namespace PandaConsole.Sakai
         /// </summary>
         [DataMember(Name = "size")]
         public int Size { get; set; }
+
+        /// <summary>
+        /// Gets or sets the path to the file in this site.
+        /// </summary>
+        [DataMember(Name = "container")]
+        public string Container { get; set; }
     }
 }
