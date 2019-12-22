@@ -35,7 +35,12 @@ namespace PandaConsole
                     dirName = temp.Substring(0, temp.IndexOf("/") + 1);
                 }
 
-                string savePath = $"./temp/{collection.Items[index].Id}/{dirName}{Path.GetFileNameWithoutExtension(item.Title)}{Path.GetExtension(item.Url)}";
+                var title = collection.Items[index].Title;
+                foreach (var invalidChar in Path.GetInvalidFileNameChars())
+                {
+                    title = title.Replace(invalidChar, '_');
+                }
+                string savePath = $"./PandaResource/{title}/{dirName}{Path.GetFileNameWithoutExtension(item.Title)}{Path.GetExtension(item.Url)}";
                 try
                 {
                     user.DownloadResource(item, savePath);
