@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace PandaConsole.Sakai
+namespace PandaLib.Panda
 {
     /// <summary>
     /// This class represents Sakai site.
