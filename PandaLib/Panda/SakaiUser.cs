@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 
 
-namespace PandaConsole.Sakai
+namespace PandaLib.Panda
 {
     /// <summary>
     /// This class represents the Sakai user.

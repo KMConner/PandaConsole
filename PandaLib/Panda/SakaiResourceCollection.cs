@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 
-namespace PandaConsole.Sakai
+namespace PandaLib.Panda
 {
     /// <summary>
     /// This class represents Sakai resource collection.
