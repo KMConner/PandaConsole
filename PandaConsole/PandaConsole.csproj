@@ -8,4 +8,8 @@
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PandaLib\PandaLib.csproj" />
+  </ItemGroup>
+
 </Project>
