@@ -3,9 +3,9 @@ using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Diagnostics;
 
-namespace PandaConsole
+namespace PandaLib
 {
-    public static class Utilities
+    static class Utilities
     {
         /// <summary>
         /// Deserializes the json and retrives object of specified type.

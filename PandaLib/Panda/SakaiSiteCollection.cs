@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
 
-namespace PandaConsole.Sakai
+namespace PandaLib.Panda
 {
     /// <summary>
     /// This class represents Sakai site collection.
