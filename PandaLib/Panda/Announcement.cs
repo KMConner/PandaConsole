@@ -25,6 +25,9 @@ namespace PandaLib.Panda
         [DataMember(Name = "createdOn")]
         public long CreatedOnTick { get; set; }
 
+        [DataMember(Name = "siteTitle")]
+        public string SiteTitle { get; set; }
+
         [IgnoreDataMember]
         public DateTimeOffset CreatedAt
             => DateTimeOffset.FromUnixTimeMilliseconds(CreatedOnTick);
