@@ -1,13 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Common.Shell;
-using PandaLib.Panda;
-using HtmlAgilityPack;
+﻿using AnnouncementNotifier.Data;
 using AnnouncementNotifier.Models;
-using System.Text;
-using AnnouncementNotifier.Data;
+using Common.Shell;
+using HtmlAgilityPack;
 using Microsoft.EntityFrameworkCore;
+using PandaLib.Panda;
+using Slack.Webhooks;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace AnnouncementNotifier
 {
@@ -34,6 +37,11 @@ namespace AnnouncementNotifier
                 anns.AddRange(ann);
                 Console.WriteLine(ann.Length);
             }
+
+            string pattern = @"((https?|ftp|file)\://|www.)[A-Za-z0-9\.\-]+(/[A-Za-z0-9\?\&\=;\+!'\(\)\*\-\._~%]*)*";
+            Regex reg = new Regex(pattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+            var client = new SlackClient(ConfigurationManager.AppSettings["SlackWebhookUrl"]);
 
             using (var context = new NotifierContext())
             {
@@ -65,6 +73,24 @@ namespace AnnouncementNotifier
                     {
                         AnnouncementId = announce.Id,
                     });
+
+                    string msgText = sb.ToString().Trim();
+                    StringBuilder txtBuilder = new StringBuilder(msgText);
+                    foreach (var match in reg.Matches(msgText).Reverse())
+                    {
+                        txtBuilder.Insert(match.Index + match.Length, '>');
+                        txtBuilder.Insert(match.Index, '<');
+                    }
+
+                    var message = new SlackMessage
+                    {
+                        IconEmoji = ":panda_face:",
+                        Username = announce.SiteTitle,
+                        Text = announce.Title + "\n" + txtBuilder.ToString(),
+                    };
+
+                    client.Post(message);
+
                     changed = true;
                 }
                 if (changed)
