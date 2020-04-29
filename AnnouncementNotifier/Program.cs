@@ -90,14 +90,24 @@ namespace AnnouncementNotifier
             return user;
         }
 
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
             using (var context = new NotifierContext())
             {
                 context.Database.Migrate();
             }
 
-            var user = Signin();
+            SakaiUser user;
+            try
+            {
+                user = Signin();
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine("Error occuered while sign in: " + ex.Message);
+                return -1;
+            }
+
             SakaiSiteCollection sites = user.GetSites();
             var anns = new List<Announcement>();
             foreach (var site in sites.Items)
@@ -146,6 +156,7 @@ namespace AnnouncementNotifier
                     context.SaveChanges();
                 }
             }
+            return 0;
         }
     }
 }
