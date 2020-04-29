@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Text;
-namespace PandaConsole.Shell
+namespace Common.Shell
 {
     /// <summary>
     /// This class provides features on the console.
     /// </summary>
-    static class ShellMethods
+    public static class ShellMethods
     {
         /// <summary>
         /// Enter password without displaying characters.

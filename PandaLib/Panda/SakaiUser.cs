@@ -141,9 +141,24 @@ namespace PandaLib.Panda
                 stream?.Close();
             }
         }
-		
+
+        public Announcement[] GetAnnouncement(SakaiSite site)
+        {
+            string announceJson;
+            try
+            {
+                announceJson = GetHttpText($"https://panda.ecs.kyoto-u.ac.jp/direct/announcement/site/{site.Id}.json");
+            }
+            catch (WebException ex) when (ex.Response is HttpWebResponse resp && resp.StatusCode == HttpStatusCode.NotFound)
+            {
+                return new Announcement[0];
+            }
+
+            return Utilities.DeserializeJson<AnnouncementCollection>(announceJson).Announcements;
+        }
+
         #endregion
-		
+
         #region Private Methods
 
         /// <summary>
