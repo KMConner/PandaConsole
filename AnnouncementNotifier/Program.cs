@@ -64,10 +64,26 @@ namespace AnnouncementNotifier
 
         private static SakaiUser Signin()
         {
+            string ecsId = ConfigurationManager.AppSettings["EcsId"];
+            if (!string.IsNullOrWhiteSpace(ecsId))
+            {
+                Console.WriteLine("Use ECS ID from configuration.");
+            }
+            else
+            {
+                Console.Write("Enter your ECS ID: ");
+                ecsId = Console.ReadLine();
+            }
+            string pass = ConfigurationManager.AppSettings["EcsPass"];
 
-            Console.Write("Enter your ECS ID: ");
-            string ecsId = Console.ReadLine();
-            string pass = ShellMethods.EnterPassword("Enter your password: ");
+            if (!string.IsNullOrWhiteSpace(pass))
+            {
+                Console.WriteLine("Use password from configuration.");
+            }
+            else
+            {
+                pass = ShellMethods.EnterPassword("Enter your password: ");
+            }
 
             var user = new SakaiUser(ecsId, pass);
             user.LogIn();
@@ -103,7 +119,7 @@ namespace AnnouncementNotifier
                     }
 
                     string body = Html2Text(announce.Body);
-                    
+
                     // Print to console
                     Console.WriteLine($"{announce.Title} -- {announce.SiteTitle}");
                     Console.WriteLine(body);
