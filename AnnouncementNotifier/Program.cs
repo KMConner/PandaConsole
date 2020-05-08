@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using AnnouncementNotifier.Data;
 using AnnouncementNotifier.Models;
 using Common.Shell;
+using System.Web;
 using HtmlAgilityPack;
 using Microsoft.EntityFrameworkCore;
 using PandaLib.Panda;
@@ -53,7 +54,12 @@ namespace AnnouncementNotifier
         /// <returns></returns>
         private static string EncapsulateUrl(string txt)
         {
+            txt = HttpUtility.HtmlDecode(txt);
+
             StringBuilder txtBuilder = new StringBuilder(txt);
+            txtBuilder.Replace("<", "&lt;");
+            txtBuilder.Replace(">", "&gt;");
+            txtBuilder.Replace("&", "&amp;");
             foreach (var match in urlRegex.Matches(txt).Reverse())
             {
                 txtBuilder.Insert(match.Index + match.Length, '>');
