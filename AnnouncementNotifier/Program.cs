@@ -98,6 +98,11 @@ namespace AnnouncementNotifier
 
         static int Main(string[] args)
         {
+            bool silent = args.Length == 1 && args[0] == "--silent";
+            if (silent)
+            {
+                Console.WriteLine("Silent mode");
+            }
             using (var context = new NotifierContext())
             {
                 context.Database.Migrate();
@@ -145,14 +150,17 @@ namespace AnnouncementNotifier
                         AnnouncementId = announce.Id,
                     });
 
-                    // Send notification to Slack
-                    var message = new SlackMessage
+                    if (!silent)
                     {
-                        IconEmoji = ":panda_face:",
-                        Username = announce.SiteTitle,
-                        Text = announce.Title + "\n" + EncapsulateUrl(body),
-                    };
-                    client.Post(message);
+                        // Send notification to Slack
+                        var message = new SlackMessage
+                        {
+                            IconEmoji = ":panda_face:",
+                            Username = announce.SiteTitle,
+                            Text = announce.Title + "\n" + EncapsulateUrl(body),
+                        };
+                        client.Post(message);
+                    }
 
                     changed = true;
                 }
