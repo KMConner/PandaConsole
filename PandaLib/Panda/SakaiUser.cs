@@ -157,6 +157,12 @@ namespace PandaLib.Panda
             return Utilities.DeserializeJson<AnnouncementCollection>(announceJson).Announcements;
         }
 
+        public Assignment[] GetAssignments()
+        {
+            string assignmentJson = GetHttpText("https://panda.ecs.kyoto-u.ac.jp/direct/assignment/my.json");
+            return Utilities.DeserializeJson<AssignmentCollection>(assignmentJson).Assignments;
+        }
+
         #endregion
 
         #region Private Methods
