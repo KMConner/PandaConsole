@@ -40,6 +40,6 @@ Thumbs.db
 # dotCover
 *.dotCover
 
-PandaConsole/PandaResource
+ResourceDownloader/PandaResource
 .vscode/
 
