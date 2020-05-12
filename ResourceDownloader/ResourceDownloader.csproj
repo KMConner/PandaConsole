@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="PandaResource\**" />
+    <EmbeddedResource Remove="PandaResource\**" />
+    <None Remove="PandaResource\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
     <ProjectReference Include="..\PandaLib\PandaLib.csproj" />
   </ItemGroup>
