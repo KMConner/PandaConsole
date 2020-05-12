@@ -127,7 +127,7 @@ namespace AnnouncementNotifier
                 anns.AddRange(ann);
             }
 
-            var client = new SlackClient(ConfigurationManager.AppSettings["SlackWebhookUrl"]);
+            var messages = new List<SlackMessage>();
 
             using (var context = new NotifierContext())
             {
@@ -150,19 +150,25 @@ namespace AnnouncementNotifier
                         AnnouncementId = announce.Id,
                     });
 
-                    if (!silent)
+                    // Send notification to Slack
+                    var message = new SlackMessage
                     {
-                        // Send notification to Slack
-                        var message = new SlackMessage
-                        {
-                            IconEmoji = ":panda_face:",
-                            Username = announce.SiteTitle,
-                            Text = announce.Title + "\n" + EncapsulateUrl(body),
-                        };
-                        client.Post(message);
-                    }
+                        IconEmoji = ":panda_face:",
+                        Username = announce.SiteTitle,
+                        Text = announce.Title + "\n" + EncapsulateUrl(body),
+                    };
+                    messages.Add(message);
 
                     changed = true;
+                }
+
+                if (!silent)
+                {
+                    var client = new SlackClient(ConfigurationManager.AppSettings["SlackWebhookUrl"]);
+                    foreach (var msg in messages)
+                    {
+                        client.Post(msg);
+                    }
                 }
 
                 if (changed)
