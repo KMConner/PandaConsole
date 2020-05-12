@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -71,6 +71,8 @@ namespace AnnouncementNotifier
                 var ann = user.GetAnnouncement(site);
                 anns.AddRange(ann);
             }
+            var assignments = user.GetAssignments();
+            Dictionary<string, string> siteDictionary = sites.Items.ToDictionary(i => i.Id, i => i.Title, StringComparer.OrdinalIgnoreCase);
 
             var messages = new List<SlackMessage>();
 
@@ -105,6 +107,14 @@ namespace AnnouncementNotifier
                     messages.Add(message);
 
                     changed = true;
+                }
+
+                foreach (var assignment in assignments)
+                {
+                    string body = HtmlUtils.HtmlToPlainText(assignment.Instructions);
+                    Console.WriteLine($"{assignment.Title} -- {siteDictionary[assignment.Context]}");
+                    Console.WriteLine(body);
+                    Console.WriteLine(new string('#', 20));
                 }
 
                 if (!silent)
