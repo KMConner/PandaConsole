@@ -8,6 +8,8 @@ namespace AnnouncementNotifier.Data
     {
         public DbSet<NotifyHistory> NotifyHistory { get; set; }
 
+        public DbSet<AssignmentHistory> AssignmentHistory { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
