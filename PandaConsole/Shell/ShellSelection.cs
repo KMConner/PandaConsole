@@ -124,8 +124,16 @@ namespace PandaConsole.Shell
                 string showStr = TrimToWidth(items[i], Console.BufferWidth - 6);
                 if (selectedIndex == i)
                 {
-                    Console.ForegroundColor = previousBackgroundColor;
-                    Console.BackgroundColor = previousForecolor;
+                    if ((int)previousBackgroundColor == -1 && (int)previousForecolor == -1)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.BackgroundColor = ConsoleColor.White;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = previousBackgroundColor;
+                        Console.BackgroundColor = previousForecolor;
+                    }
                     Console.Write($"[{Indices[i]}] {showStr}");
                     Console.ResetColor();
                 }
