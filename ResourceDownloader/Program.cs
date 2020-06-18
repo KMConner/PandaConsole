@@ -16,7 +16,15 @@ namespace PandaConsole
             string ecsId = Console.ReadLine();
             string password = ShellMethods.EnterPassword("EnterPassword:");
             var user = new SakaiUser(ecsId, password);
-            user.LogIn();
+            try
+            {
+                user.LogIn();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Failed to sign in:\r\n" + ex.Message);
+                return;
+            }
 
             // Get site list
             SakaiSiteCollection collection = user.GetSites();
