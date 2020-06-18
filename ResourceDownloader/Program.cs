@@ -32,8 +32,7 @@ namespace PandaConsole
                 string dirName = string.Empty;
                 if (item.Container?.Contains(collection.Items[index].Id) == true)
                 {
-                    var temp = item.Container.Substring(item.Container.IndexOf(collection.Items[index].Id) + collection.Items[index].Id.Length + 1);
-                    dirName = temp.Substring(0, temp.IndexOf("/") + 1);
+                    dirName = item.Container.Substring(item.Container.IndexOf(collection.Items[index].Id) + collection.Items[index].Id.Length + 1);
                 }
 
                 var title = collection.Items[index].Title;
@@ -41,6 +40,11 @@ namespace PandaConsole
                 {
                     title = title.Replace(invalidChar, '_');
                 }
+                foreach (var invalidChar in Path.GetInvalidPathChars())
+                {
+                    dirName = dirName.Replace(invalidChar, '_');
+                }
+
                 string savePath = $"./PandaResource/{title}/{dirName}{Path.GetFileNameWithoutExtension(item.Title)}{Path.GetExtension(item.Url)}";
                 try
                 {
